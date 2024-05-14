@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navigation Menu</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-link" data-page="home">Home</a></li>
+            <li><a href="#about" class="nav-link" data-page="about">About</a></li>
+            <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
+            <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div id="page-content"></div>
+
+    <script>
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', event => {
+                event.preventDefault();
+                const page = link.getAttribute('data-page');
+                loadPage(page);
+            });
+        });
+
+        function loadPage(page) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `${page}.html`, true);
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    document.getElementById('page-content').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        loadPage('home');
+    </script>
+</body>
+</html>
